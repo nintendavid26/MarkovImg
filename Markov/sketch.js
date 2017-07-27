@@ -3,9 +3,10 @@ var images=[];
 var MarkovImage;//ArrayOfPixels
 var MarImage;
 var PixelNeighbors;//object with pixel as key and array of neighbors in value. Neighbors go Left->Up->Right->Down
-var myImage,myImage2;
-var MarWidth=640;
-var MarHeight=960;
+var myImage=new Image();
+var myImage2=new Image();
+var MarWidth=800;
+var MarHeight=800;
 
 function setup() {
 
@@ -27,7 +28,7 @@ for(var n=0;n<document.images.length;n++){
 	canvas2.width=images[n].width;
 	canvas2.height=images[n].height;
 	ctx.drawImage(images[n],0,0);
-
+	//myImage.setAttribute('crossOrigin', '');
 	myImage = ctx.getImageData(0,0,canvas.width,canvas.height);	
 	myImage2=myImage;
 	myImage2.Initialize();
@@ -39,9 +40,6 @@ canvas2.width=MarWidth;
 canvas2.height=MarHeight;
 myImage2.Pixels=ApplyMarkov(PixelNeighbors,myImage2);
 myImage2.FromPixels(myImage2.Pixels);
-console.log(myImage2);
-MarImage=ctx2.createImageData(MarWidth, MarHeight);
-copyData(MarImage,myImage2);
 ctx2.putImageData(myImage2,0,0);
 }
 
@@ -60,12 +58,6 @@ function StringToPixel(s){
 	a[2]=int(s.split(',')[2]);
 	a[3]=255;
 	return a;
-}
-
-function copyData(one,two){
-	for(var i=0;i<two.data.length;i++){
-	one.data[i]=two.data[i];
-	}
 }
 
 function DataToPixels(Data){
